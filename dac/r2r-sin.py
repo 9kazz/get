@@ -10,6 +10,7 @@ try:
     dac = r2r.R2R_DAC([16, 20, 21, 25, 26, 17, 27, 22], amplitude, False)
     
     start_time = time.time()
+    next_sample_time = start_time
     
     while True:
         current_time = time.time() - start_time
@@ -19,7 +20,7 @@ try:
         
         dac.set_voltage(voltage)
         
-        sg.wait_for_sampling_period(sampling_frequency)
+        next_sample_time = sg.wait_for_sampling_period(sampling_frequency, next_sample_time)
 
 finally:
     dac.deinit()
